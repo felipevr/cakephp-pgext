@@ -1,0 +1,27 @@
+{
+    "name": "felipevr/postgresql-ext",
+    "description": "Postgresql Database Driver Extension",
+    "version": "0.9.1",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Felipe V. Rigo",
+            "email": "github@felipevr.eti.br"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "cakephp/cakephp": ">=3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fvr\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fvr\\": "src/"
+        }
+    }
+}
