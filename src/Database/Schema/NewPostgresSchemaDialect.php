@@ -8,18 +8,18 @@
 
 namespace Fvr\Database\Schema;
 
-use Cake\Database\Schema\PostgresSchema;
+use Cake\Database\Schema\PostgresSchemaDialect;
 
 /**
  * Schema management/reflection features for PostgreSQL by AGETIC-UFMS.
  */
-class NewPostgresSchema extends PostgresSchema
+class NewPostgresSchemaDialect extends PostgresSchemaDialect
 {
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function listTablesSql($config)
+    public function listTablesSql(array $config): array
     {
         $sql = 'SELECT table_name as name FROM information_schema.tables WHERE table_schema = :schema';
         $sql .= " UNION SELECT table_name as name FROM INFORMATION_SCHEMA.views WHERE table_schema = :schema";
@@ -32,9 +32,9 @@ WHERE ( relkind = 'm' or relkind = 'v' ) AND n.nspname = :schema";
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function describeColumnSql($tableName, $config)
+    public function describeColumnSql(string $tableName, array $config): array
     {
         $sql = 'SELECT DISTINCT table_schema AS schema,
             column_name AS name,
@@ -44,6 +44,7 @@ WHERE ( relkind = 'm' or relkind = 'v' ) AND n.nspname = :schema";
             c.collation_name,
             d.description as comment,
             ordinal_position,
+            c.datetime_precision,
             c.numeric_precision as column_precision,
             c.numeric_scale as column_scale,
             pg_get_serial_sequence(attr.attrelid::regclass::text, attr.attname) IS NOT NULL AS has_serial
@@ -62,14 +63,15 @@ WHERE ( relkind = 'm' or relkind = 'v' ) AND n.nspname = :schema";
            null AS char_length,
                 null as collation_name,
                 null as comment,
-                a.attnum as ordinal_position,     
+                a.attnum as ordinal_position,
+                null as datetime_precision,     
                 null as column_precision,
                 null as column_scale,
                 false AS has_serial 
         FROM pg_attribute a
         JOIN pg_class t on a.attrelid = t.oid
         JOIN pg_namespace s on t.relnamespace = s.oid
-        WHERE a.attnum > 0 AND NOT a.attisdropped
+        WHERE a.attnum > 0 AND NOT a.attisdropped AND t.relkind = \'m\'
         AND t.relname = ? AND s.nspname = ? AND current_catalog = ?
         ORDER BY ordinal_position';
 

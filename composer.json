@@ -1,7 +1,7 @@
 {
     "name": "felipevr/postgresql-ext",
     "description": "Postgresql Database Driver Extension",
-    "version": "0.9.1",
+    "version": "2.0.2",
     "type": "project",
     "license": "MIT",
     "authors": [
@@ -11,15 +11,10 @@
         }
     ],
     "require": {
-        "php": ">=5.5",
-        "cakephp/cakephp": ">=3.1"
+        "php": ">=7.2",
+        "cakephp/cakephp": ">=4.0"
     },
     "autoload": {
-        "psr-4": {
-            "Fvr\\": "src/"
-        }
-    },
-    "autoload-dev": {
         "psr-4": {
             "Fvr\\": "src/"
         }

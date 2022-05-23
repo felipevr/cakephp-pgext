@@ -8,8 +8,9 @@
 
 namespace Fvr\Database\Driver;
 
-use App\Database\Schema\NewPostgresSchema;
 use Cake\Database\Driver\Postgres;
+use Cake\Database\Schema\SchemaDialect;
+use Fvr\Database\Schema\NewPostgresSchemaDialect;
 use PDO;
 
 
@@ -42,7 +43,7 @@ class NewPostgres extends Postgres
      *
      * @return bool true on success
      */
-    public function connect()
+    public function connect(): bool
     {
         if ($this->_connection) {
             return true;
@@ -94,7 +95,7 @@ class NewPostgres extends Postgres
      * @param string $application_name The application name to set `application_name` to.
      * @return void
      */
-    public function setApplicationName($application_name)
+    public function setApplicationName(string $application_name): void
     {
         $this->connect();
         $this->_connection->exec('SET application_name TO ' . $this->_connection->quote($application_name));
@@ -102,17 +103,12 @@ class NewPostgres extends Postgres
 
 
     /**
-     * Get the schema dialect.
-     *
-     * Used by Cake\Database\Schema package to reflect schema and
-     * generate schema.
-     *
-     * @return \Cake\Database\Schema\PostgresSchema
+     * @inheritDoc
      */
-    public function schemaDialect()
+    public function schemaDialect(): SchemaDialect
     {
         if (!$this->_schemaDialect) {
-            $this->_schemaDialect = new NewPostgresSchema($this);
+            $this->_schemaDialect = new NewPostgresSchemaDialect($this);
         }
 
         return $this->_schemaDialect;
