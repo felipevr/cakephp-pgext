@@ -69,7 +69,7 @@ WHERE ( relkind = 'm' or relkind = 'v' ) AND n.nspname = :schema";
         FROM pg_attribute a
         JOIN pg_class t on a.attrelid = t.oid
         JOIN pg_namespace s on t.relnamespace = s.oid
-        WHERE a.attnum > 0 AND NOT a.attisdropped
+        WHERE a.attnum > 0 AND NOT a.attisdropped AND t.relkind = \'m\'
         AND t.relname = ? AND s.nspname = ? AND current_catalog = ?
         ORDER BY ordinal_position';
 
