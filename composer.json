@@ -1,7 +1,6 @@
 {
     "name": "felipevr/postgresql-ext",
     "description": "Postgresql Database Driver Extension",
-    "version": "2.0.2",
     "type": "project",
     "license": "MIT",
     "authors": [
